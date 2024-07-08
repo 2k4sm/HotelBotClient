@@ -16,19 +16,20 @@ const App = () => {
     setMessages([...messages, userMessage]);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/openai/chat', { message: input });
-      console.log(response);
-      const botMessage = { sender: 'bot', text: response.data.retMessage[0].text.value };
+      setInput('');
+      const response = await axios.post('https://api-hotelbot.onrender.com/api/gemini/chat', { message: input });
+      console.log(response.data.content.parts[0].text);
+      const botMessage = { sender: 'bot', text: await response.data.content.parts[0].text };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
       console.error('Error communicating with the chatbot:', error);
     }
 
-    setInput('');
   };
 
   return (
-    <div className="App flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="App flex flex-col items-center justify-center min-h-screen bg-slate-800">
+      <h1 className="text-3xl font-bold mb-4 text-orange-500">HotelBot HotelBooking Assistant.</h1>
       <ChatBox messages={messages} />
       <InputForm input={input} setInput={setInput} handleSubmit={handleSubmit} />
     </div>
