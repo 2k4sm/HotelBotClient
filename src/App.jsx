@@ -18,8 +18,7 @@ const App = () => {
     try {
       setInput('');
       const response = await axios.post('https://api-hotelbot.onrender.com/api/gemini/chat', { message: input });
-      console.log(response.data.content.parts[0].text);
-      const botMessage = { sender: 'bot', text: await response.data.content.parts[0].text };
+      const botMessage = { sender: 'bot', text: await response.data.result.content.parts[0].text };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
       console.error('Error communicating with the chatbot:', error);
